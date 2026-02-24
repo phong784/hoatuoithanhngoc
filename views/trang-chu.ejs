@@ -1,6 +1,11 @@
 <%- include('partials/header') %>
 
 <style>
+  /* --- DỌN DẸP SẠCH SẼ DÒNG CHỮ BỊ LẶP Ở TRÊN CÙNG --- */
+  .thanh-menu-chinh {
+    display: none !important;
+  }
+
   /* --- PHỤC HỒI NỀN WEB GRADIENT SANG TRỌNG --- */
   body {
     background: linear-gradient(135deg, #fdfbf7 0%, #eef7f6 100%);
@@ -11,14 +16,14 @@
     color: #333;
   }
 
-  /* --- BANNER ẢNH TRANG CHỦ --- */
+  /* --- BANNER ẢNH TRANG CHỦ (ĐÃ KÉO CAO LÊN TRÔNG HOÀNH TRÁNG HƠN) --- */
   .banner-chinh { text-align: center; max-width: 1200px; margin: 0 auto 15px; padding: 0 15px;}
-  .banner-chinh img { 
-    width: 100%; 
-    height: auto; 
-    object-fit: cover; 
-    border-radius: 16px; 
-    box-shadow: 0 8px 20px rgba(10, 124, 118, 0.15); /* Đổ bóng cho banner */
+  .banner-chinh img {
+    width: 100%;
+    height: 350px; /* <--- KÉO CAO TRÊN MÁY TÍNH LÊN 350px */
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(10, 124, 118, 0.15);
   }
 
   /* --- DANH MỤC VUỐT NGANG --- */
@@ -29,14 +34,14 @@
   .danh-muc-nhanh::-webkit-scrollbar { display: none; }
   .chip-danh-muc {
     background-color: #ffffff; color: #0A7C76; padding: 10px 22px; border-radius: 25px;
-    text-decoration: none; font-size: 14px; font-weight: 700; 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    text-decoration: none; font-size: 14px; font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     border: 1px solid transparent;
   }
-  .chip-danh-muc:hover, .chip-danh-muc.active { 
-    background: linear-gradient(135deg, #0A7C76, #149c95); 
-    color: #ffffff; 
+  .chip-danh-muc:hover, .chip-danh-muc.active {
+    background: linear-gradient(135deg, #0A7C76, #149c95);
+    color: #ffffff;
     box-shadow: 0 6px 15px rgba(10, 124, 118, 0.3);
     transform: translateY(-2px);
   }
@@ -44,110 +49,107 @@
   /* --- THANH TÌM KIẾM --- */
   .khung-tim-kiem { max-width: 600px; margin: 15px auto 20px; padding: 0 15px; position: relative; }
   .khung-tim-kiem .icon-tim-kiem { position: absolute; left: 35px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; color: #0a7c76; }
-  .khung-tim-kiem input { 
-    width: 100%; padding: 16px 20px 16px 50px; border-radius: 30px; 
-    border: 1px solid #e0eceb; font-size: 15px; outline: none; 
+  .khung-tim-kiem input {
+    width: 100%; padding: 16px 20px 16px 50px; border-radius: 30px;
+    border: 1px solid #e0eceb; font-size: 15px; outline: none;
     box-shadow: 0 6px 15px rgba(0,0,0,0.04); transition: all 0.3s ease; box-sizing: border-box; background: #fff;
   }
   .khung-tim-kiem input:focus { box-shadow: 0 6px 20px rgba(10, 124, 118, 0.15); border-color: #0a7c76; }
 
   /* --- LƯỚI SẢN PHẨM HIỆN ĐẠI --- */
-  .luoi-san-pham { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-    gap: 25px; 
-    padding: 0 15px 40px; 
-    max-width: 1200px; 
-    margin: 0 auto; 
+  .luoi-san-pham {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 0 15px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
-  
-  .the-san-pham { 
-    border-radius: 20px; /* Bo góc tròn trịa hơn */
-    overflow: hidden; 
-    text-align: center; 
-    background: #fff; 
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nảy nhẹ */
-    padding-bottom: 20px; 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.06); /* Đổ bóng 3D */
-    border: none; /* Bỏ viền thô cứng */
+
+  .the-san-pham {
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: center;
+    background: #fff;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    border: none;
     position: relative;
   }
-  
-  .the-san-pham:hover { 
-    transform: translateY(-8px); 
-    box-shadow: 0 15px 35px rgba(10, 124, 118, 0.15); 
+
+  .the-san-pham:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(10, 124, 118, 0.15);
   }
-  
-  /* Ảnh tràn viền hoàn toàn */
-  .the-san-pham img { 
-    width: 100%; 
-    height: 280px; 
-    object-fit: cover; 
+
+  .the-san-pham img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
     border-bottom: 1px solid #f0f0f0;
   }
-  
-  .the-san-pham h3 { 
-    font-size: 16px; 
-    color: #2c3e50; 
-    margin: 15px 15px; 
-    display: -webkit-box; 
-    -webkit-line-clamp: 2; 
+
+  .the-san-pham h3 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin: 15px 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
     line-clamp: 2;
-    -webkit-box-orient: vertical; 
-    overflow: hidden; 
-    height: 44px; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 44px;
     font-weight: 700;
     line-height: 1.4;
   }
-  
-  /* Nút bấm nổi bật */
-  .the-san-pham a.btn-chi-tiet { 
-    display: inline-block; 
-    padding: 10px 25px; 
-    background: linear-gradient(135deg, #0A7C76, #149c95); /* Màu gradient xịn xò */
-    color: #ffffff; 
-    text-decoration: none; 
-    border-radius: 25px; 
-    font-weight: bold; 
+
+  .the-san-pham a.btn-chi-tiet {
+    display: inline-block;
+    padding: 10px 25px;
+    background: linear-gradient(135deg, #0A7C76, #149c95);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
     font-size: 14px;
-    transition: all 0.3s; 
+    transition: all 0.3s;
     box-shadow: 0 4px 10px rgba(10, 124, 118, 0.2);
   }
-  
-  .the-san-pham a.btn-chi-tiet:hover { 
-    background: linear-gradient(135deg, #08615c, #0A7C76); 
+
+  .the-san-pham a.btn-chi-tiet:hover {
+    background: linear-gradient(135deg, #08615c, #0A7C76);
     box-shadow: 0 6px 15px rgba(10, 124, 118, 0.3);
   }
 
   /* --- TỐI ƯU CỰC MƯỢT CHO ĐIỆN THOẠI --- */
   @media (max-width: 768px) {
-    .luoi-san-pham { 
-      grid-template-columns: repeat(2, 1fr); /* Ép luôn luôn 2 cột trên mobile */
-      gap: 12px; 
-      padding: 0 12px 40px; 
+    .luoi-san-pham {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 0 12px 40px;
     }
-    .the-san-pham { 
-      border-radius: 16px; 
+    .the-san-pham {
+      border-radius: 16px;
       padding-bottom: 15px;
     }
-    .the-san-pham img { 
-      height: 190px; /* Ảnh to ra, lấp đầy không gian */
+    .the-san-pham img {
+      height: 190px;
     }
-    .the-san-pham h3 { 
-      font-size: 14px; 
-      margin: 12px 8px; 
-      height: 40px; 
+    .the-san-pham h3 {
+      font-size: 14px;
+      margin: 12px 8px;
+      height: 40px;
     }
-    .the-san-pham a.btn-chi-tiet { 
-      padding: 8px 18px; 
-      font-size: 12px; 
+    .the-san-pham a.btn-chi-tiet {
+      padding: 8px 18px;
+      font-size: 12px;
     }
     .banner-chinh img {
-      height: 160px; /* Banner gọn gàng hơn */
+      height: 220px; /* <--- KÉO CAO TRÊN ĐIỆN THOẠI LÊN 220px */
     }
   }
 
-  /* Hiệu ứng xuất hiện mượt mà khi load trang */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -176,9 +178,9 @@
   <a href="/?danhmuc=Hoa Baby" class="chip-danh-muc">Hoa Baby</a>
 </div>
 
-<div class="luoi-san-pham" id="danhSachHoa">
+  <div class="luoi-san-pham" id="danhSachHoa">
   <% danhSach.forEach((item, index) => { %>
-    <div class="the-san-pham" data-delay="<%= index * 0.05 %>">
+    <div class="the-san-pham" data-animation-delay="<%= index * 0.05 %>">
       <a href="/san-pham/<%= item.slug %>">
         <img src="<%= item.hinhAnh %>" alt="<%= item.ten %>" decoding="async">
       </a>
@@ -189,12 +191,11 @@
 </div>
 
 <script>
-  document.querySelectorAll('.the-san-pham').forEach(card => {
-    card.style.animationDelay = card.dataset.delay + 's';
+  document.querySelectorAll('.the-san-pham').forEach(sanPham => {
+    const delay = sanPham.getAttribute('data-animation-delay');
+    sanPham.style.animationDelay = delay + 's';
   });
-</script>
 
-<script>
   document.getElementById('oTimKiem').addEventListener('input', function() {
     let tuKhoa = this.value.toLowerCase().trim();
     let cacSanPham = document.querySelectorAll('.the-san-pham');
