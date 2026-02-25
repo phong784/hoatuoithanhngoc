@@ -1,9 +1,20 @@
 <%- include('partials/header') %>
 
   <style>
-    /* --- DỌN DẸP SẠCH SẼ DÒNG CHỮ BỊ LẶP Ở TRÊN CÙNG --- */
+    /* --- PHỤC HỒI NÚT 3 GẠCH, CHỈ GIẤU CHỮ BỊ TRÙNG --- */
     .thanh-menu-chinh {
+      background: transparent !important;
+      padding: 15px 15px 0 !important;
+      text-align: right !important;
+      /* Đẩy nút 3 gạch sang góc phải cho xịn */
+    }
+
+    .thanh-menu-chinh h1,
+    .thanh-menu-chinh p,
+    .thanh-menu-chinh .lien-he-header,
+    .thanh-menu-chinh hr {
       display: none !important;
+      /* Lệnh bắn tỉa: Chỉ xóa chữ và đường kẻ, tha mạng cho nút 3 gạch */
     }
 
     /* --- PHỤC HỒI NỀN WEB GRADIENT SANG TRỌNG --- */
