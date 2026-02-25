@@ -125,7 +125,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 25px;
-      padding: 0 15px 40px;
+      padding: 0 15px 15px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -191,7 +191,7 @@
       .luoi-san-pham {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-        padding: 0 12px 40px;
+        padding: 0 12px 15px;
       }
 
       .the-san-pham {
@@ -270,64 +270,73 @@
       <% }) %>
   </div>
 
-  <script>
-    document.getElementById('oTimKiem').addEventListener('input', function () {
-      let tuKhoa = this.value.toLowerCase().trim();
-      let cacSanPham = document.querySelectorAll('.the-san-pham');
-      cacSanPham.forEach(sanPham => {
-        let tenHoa = sanPham.querySelector('.ten-hoa-hien-thi').textContent.toLowerCase();
-        sanPham.style.display = tenHoa.includes(tuKhoa) ? 'block' : 'none';
-      });
-    });
+  <div style="text-align: center; margin: 10px 0 40px; width: 100%;">
+    <button id="nut-xem-them" style="background: linear-gradient(135deg, #0A7C76, #149c95); color: white; padding: 12px 40px; border: none; border-radius: 25px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(10, 124, 118, 0.2); cursor: pointer; transition: all 0.3s; display: none;">
+      Xem thêm hoa...
+    </button>
+  </div>
 
-    document.querySelectorAll('.the-san-pham').forEach(element => {
-      const delay = element.getAttribute('data-delay');
-      element.style.animationDelay = delay + 's';
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const danhSachHoa = Array.from(document.querySelectorAll('.the-san-pham'));
+      const nutXemThem = document.getElementById('nut-xem-them');
+      const oTimKiem = document.getElementById('oTimKiem');
+      
+      let soHoaHienTai = 10; // Hiện 10 lẵng đầu
+      const soHoaThem = 10;  // Mỗi lần bấm xổ thêm 10 lẵng
+
+      // Hàm điều khiển hiển thị số lượng hoa
+      function capNhatHienThi() {
+        danhSachHoa.forEach((hoa, index) => {
+          if (index >= soHoaHienTai) {
+            hoa.style.display = 'none';
+          } else {
+            hoa.style.display = 'block';
+          }
+        });
+
+        // Giấu hoặc hiện nút "Xem thêm"
+        if (soHoaHienTai >= danhSachHoa.length) {
+          nutXemThem.style.display = 'none';
+        } else {
+          nutXemThem.style.display = 'inline-block';
+        }
+      }
+
+      // 1. Chạy hàm giấu bớt hoa ngay khi vừa load web
+      if (danhSachHoa.length > 0) {
+        capNhatHienThi();
+      }
+
+      // 2. Xử lý khi khách bấm nút "Xem thêm hoa"
+      nutXemThem.addEventListener('click', function() {
+        soHoaHienTai += soHoaThem; // Cộng thêm 10 hoa
+        capNhatHienThi(); // Cập nhật lại giao diện
+      });
+
+      // 3. Xử lý khi khách gõ tìm kiếm
+      oTimKiem.addEventListener('input', function () {
+        let tuKhoa = this.value.toLowerCase().trim();
+        
+        if (tuKhoa === '') {
+          // Nếu xóa trắng ô tìm kiếm -> Trả lại trạng thái Xem thêm
+          capNhatHienThi();
+        } else {
+          // Nếu đang tìm kiếm -> Ẩn nút xem thêm, bung toàn bộ hoa ra tìm
+          nutXemThem.style.display = 'none';
+          danhSachHoa.forEach(sanPham => {
+            let tenHoa = sanPham.querySelector('.ten-hoa-hien-thi').textContent.toLowerCase();
+            sanPham.style.display = tenHoa.includes(tuKhoa) ? 'block' : 'none';
+          });
+        }
+      });
+
+      // Hiệu ứng delay rơi từng lẵng hoa
+      document.querySelectorAll('.the-san-pham').forEach(element => {
+        const delay = element.getAttribute('data-delay');
+        element.style.animationDelay = delay + 's';
+      });
     });
   </script>
 
   <%- include('partials/footer') %>
-  <div class="khu-vuc-xem-them" style="text-align: center; margin: 30px 0;">
-    <button id="nut-xem-them" style="background: #009688; color: white; padding: 12px 40px; border: none; border-radius: 25px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 80%; max-width: 300px; cursor: pointer;">
-        Xem thêm hoa...
-    </button>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Gọi đúng tên class .the-san-pham của Giám đốc
-    const danhSachHoa = document.querySelectorAll('.the-san-pham'); 
-    const nutXemThem = document.getElementById('nut-xem-them');
-    let soHoaHienTai = 10; // Hiện 10 lẵng đầu tiên
-
-    if (danhSachHoa.length > 0) {
-        // Giấu bớt hoa đi
-        danhSachHoa.forEach((hoa, index) => {
-            if (index >= soHoaHienTai) {
-                hoa.style.display = 'none';
-            }
-        });
-
-        if (danhSachHoa.length <= soHoaHienTai) {
-            nutXemThem.style.display = 'none';
-        }
-
-        // Khi bấm nút thì xổ ra thêm 10 cái
-        nutXemThem.addEventListener('click', function() {
-            let soHoaTiepTheo = soHoaHienTai + 10; 
-            for (let i = soHoaHienTai; i < soHoaTiepTheo; i++) {
-                if (danhSachHoa[i]) {
-                    danhSachHoa[i].style.display = 'block'; // Hiện hoa ra (nếu web dùng flex thì đổi thành 'flex' nhé)
-                }
-            }
-            soHoaHienTai = soHoaTiepTheo; 
-
-            if (soHoaHienTai >= danhSachHoa.length) {
-                nutXemThem.style.display = 'none'; // Hết hoa thì giấu nút
-            }
-        });
-    } else {
-        nutXemThem.style.display = 'none';
-    }
-});
-</script>
