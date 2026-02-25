@@ -287,3 +287,47 @@
   </script>
 
   <%- include('partials/footer') %>
+  <div class="khu-vuc-xem-them" style="text-align: center; margin: 30px 0;">
+    <button id="nut-xem-them" style="background: #009688; color: white; padding: 12px 40px; border: none; border-radius: 25px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 80%; max-width: 300px; cursor: pointer;">
+        Xem thêm hoa...
+    </button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Gọi đúng tên class .the-san-pham của Giám đốc
+    const danhSachHoa = document.querySelectorAll('.the-san-pham'); 
+    const nutXemThem = document.getElementById('nut-xem-them');
+    let soHoaHienTai = 10; // Hiện 10 lẵng đầu tiên
+
+    if (danhSachHoa.length > 0) {
+        // Giấu bớt hoa đi
+        danhSachHoa.forEach((hoa, index) => {
+            if (index >= soHoaHienTai) {
+                hoa.style.display = 'none';
+            }
+        });
+
+        if (danhSachHoa.length <= soHoaHienTai) {
+            nutXemThem.style.display = 'none';
+        }
+
+        // Khi bấm nút thì xổ ra thêm 10 cái
+        nutXemThem.addEventListener('click', function() {
+            let soHoaTiepTheo = soHoaHienTai + 10; 
+            for (let i = soHoaHienTai; i < soHoaTiepTheo; i++) {
+                if (danhSachHoa[i]) {
+                    danhSachHoa[i].style.display = 'block'; // Hiện hoa ra (nếu web dùng flex thì đổi thành 'flex' nhé)
+                }
+            }
+            soHoaHienTai = soHoaTiepTheo; 
+
+            if (soHoaHienTai >= danhSachHoa.length) {
+                nutXemThem.style.display = 'none'; // Hết hoa thì giấu nút
+            }
+        });
+    } else {
+        nutXemThem.style.display = 'none';
+    }
+});
+</script>
