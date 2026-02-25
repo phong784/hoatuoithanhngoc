@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 
-// --- BẬT BỘ NHỚ ĐỆM (CACHE) 30 NGÀY -> KHẮC PHỤC TRIỆT ĐỂ LỖI GIẬT LAG LÙI TRANG ---
+// --- BẬT BỘ NHỚ ĐỆM (CACHE) 30 NGÀY ---
 app.use(express.static('public', { maxAge: 30 * 24 * 60 * 60 * 1000 }));
 
 // --- THÔNG TIN CỬA HÀNG ---
@@ -19,14 +19,50 @@ const thongTinCuaHang = {
   banDo: "https://maps.google.com/?cid=12711485143305872964&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ"
 };
 
-// =========================================================================
-// KHO HOA ĐƯỢC CHIA SẴN 5 DANH MỤC. BẠN CHỈ CẦN THÊM ẢNH VÀO ĐÚNG DANH MỤC!
-// Cấu trúc thêm hoa mới: { file: "ten-anh.jpg", ten: "Tên hiển thị", moTa: "Mô tả SEO" }
-// =========================================================================
 const khoHoa = {};
 
-// --- ĐOẠN CODE MA THUẬT: TỰ ĐỘNG THÊM 50 ẢNH KÍNH VIẾNG ---
-// --- BỘ TỪ ĐIỂN SEO HOA KÍNH VIẾNG CHUẨN XÁC TỪNG TẤM ẢNH ---
+// ==========================================
+// 1. DANH MỤC HOA KHAI TRƯƠNG (33 MẪU)
+// ==========================================
+khoHoa["Hoa Khai Trương"] = [
+  { file: "IMG_3426.JPG", ten: "Lẵng Hoa Khai Trương Vàng Cam VIP", moTa: "Kệ hoa 2 tầng rực rỡ mang ý nghĩa tài lộc." },
+  { file: "IMG_3427.JPG", ten: "Lẵng Hoa Khai Trương Tone Hồng Dâu", moTa: "Thiết kế hiện đại, sang trọng với tone màu hồng." },
+  { file: "IMG_3432.JPG", ten: "Lẵng Hoa Khai Trương Tone Trắng Xanh", moTa: "Kệ hoa khai trương trang nhã, thanh lịch." },
+  { file: "IMG_3433.JPG", ten: "Lẵng Hoa Khai Trương Tone Đỏ Rực Rỡ", moTa: "Sắc đỏ may mắn bùng nổ, lời chúc làm ăn phát đạt." },
+  { file: "IMG_3435.JPG", ten: "Lẵng Khai Trương Hoa Lan Sang Trọng", moTa: "Sự kết hợp của hoa lan hồ điệp." },
+  { file: "IMG_3436.JPG", ten: "Lẵng Khai Trương Đỏ Hồng Phát 1 Tầng", moTa: "Thiết kế 1 tầng gọn gàng nhưng không kém phần nổi bật." },
+  { file: "IMG_3438.JPG", ten: "Lẵng Khai Trương Tone Đỏ Quyền Lực", moTa: "Kệ đứng sang trọng, màu đỏ chủ đạo." },
+  { file: "IMG_3440.JPG", ten: "Lẵng Hoa Khai Trương Trắng Tím", moTa: "Sự chung thủy và thịnh vượng được gửi gắm." },
+  { file: "IMG_3442.JPG", ten: "Lẵng Hoa Khai Trương 2 Tầng Tone Hồng", moTa: "Sang trọng và ngọt ngào." },
+  { file: "IMG_3443.JPG", ten: "Lẵng Hoa Hiện Đại Trắng Đỏ", moTa: "Thiết kế bất đối xứng nghệ thuật." },
+  { file: "IMG_3448.JPG", ten: "Lẵng Khai Trương Hồng Tươi Tắn", moTa: "Kệ hoa đứng tone hồng mix trắng." },
+  { file: "IMG_3449.JPG", ten: "Lẵng Hoa Khai Trương Khung Tranh", moTa: "Thiết kế kệ khung hiện đại kiểu mới." },
+  { file: "IMG_3452.JPG", ten: "Lẵng Khai Trương Trắng Hồ Điệp", moTa: "Kệ hoa VIP sử dụng Lan Hồ Điệp trắng." },
+  { file: "IMG_3453.JPG", ten: "Lẵng Khai Trương Tone Hồng Lãng Mạn", moTa: "Thiết kế riêng mẫu kệ hoa hồng pastel." },
+  { file: "IMG_3455.JPG", ten: "Lẵng Khai Trương Trắng Xanh Tinh Tế", moTa: "Gam màu lạnh sang trọng, thanh lịch." },
+  { file: "IMG_3457.JPG", ten: "Lẵng Khai Trương Trắng Vàng Tươi Sáng", moTa: "Sự kết hợp hoàn hảo giữa sắc trắng và vàng." },
+  { file: "IMG_3458.JPG", ten: "Lẵng Hoa Khai Trương Tone Đỏ Hiện Đại", moTa: "Kệ đứng 2 tầng bọc lưới voan bồng bềnh." },
+  { file: "IMG_3461.JPG", ten: "Lẵng Hoa Mừng Thọ Tone Đỏ Đậm", moTa: "Sắc đỏ trầm ấm áp." },
+  { file: "IMG_3468.JPG", ten: "Lẵng Khai Trương Trắng Tím Trang Nhã", moTa: "Kệ hoa phong cách Tây Âu." },
+  { file: "IMG_3470.JPG", ten: "Lẵng Khai Trương Hồng Pastel Voan", moTa: "Kệ hoa được quấn voan điệu đà." },
+  { file: "IMG_3471.JPG", ten: "Lẵng Khai Trương Trắng Mix Lá Nhiệt Đới", moTa: "Thiết kế khác biệt với các loại hoa trắng." },
+  { file: "IMG_3474.JPG", ten: "Lẵng Hoa Khai Trương Hồng Phấn Voan Nhẹ", moTa: "Nhẹ nhàng, bay bổng." },
+  { file: "IMG_3475.JPG", ten: "Lẵng Khai Trương Tone Trắng Tinh Tế", moTa: "Kệ hoa sang trọng, mix đa dạng các loại hoa trắng." },
+  { file: "IMG_3482.JPG", ten: "Lẵng Khai Trương Hồng Sen Đậm", moTa: "Tone màu nổi bật, thu hút ánh nhìn." },
+  { file: "IMG_3487.JPG", ten: "Lẵng Khai Trương Vàng Lá Bạc Tỏa Đều", moTa: "Thiết kế xòe tròn đều đặn." },
+  { file: "IMG_3502.JPG", ten: "Bình Hoa Mừng Khai Trương Rực Rỡ", moTa: "Bình hoa cắm vòm hoành tráng đặt trên đôn gỗ." },
+  { file: "IMG_3503.JPG", ten: "Kệ Khai Trương Xanh Blue Đẳng Cấp", moTa: "Kệ hoa 2 tầng sử dụng hoa hồng xanh blue." },
+  { file: "IMG_3508.JPG", ten: "Lẵng Khai Trương Tone Xanh Trắng VIP", moTa: "Kệ hoa sảnh tone màu lạnh sang trọng." },
+  { file: "IMG_3742.JPG", ten: "Kệ Khai Trương Đại Sảnh Vàng Cam Đỏ", moTa: "Kệ hoa siêu cao cấp thiết kế dành riêng cho đại sảnh." },
+  { file: "IMG_3743.JPG", ten: "Kệ Khai Trương Sảnh Đỏ Hồng Vàng VIP", moTa: "Sự pha trộn màu sắc khéo léo tạo nên kệ hoa hoành tráng." },
+  { file: "IMG_3744.JPG", ten: "Kệ Khai Trương Quyền Lực Đỏ Cam", moTa: "Kết cấu 2 tầng đồ sộ, thể hiện sự uy quyền." },
+  { file: "IMG_3745.JPG", ten: "Kệ Khai Trương Trắng Xanh Tinh Khôi Đại Sảnh", moTa: "Kệ hoa VIP mang nét đẹp Tây Âu sang trọng." },
+  { file: "IMG_3746.JPG", ten: "Kệ Khai Trương VIP Xanh Blue Hoàng Gia", moTa: "Một tác phẩm nghệ thuật hoa tươi đẳng cấp." }
+];
+
+// ==========================================
+// 2. DANH MỤC HOA KÍNH VIẾNG (50 MẪU)
+// ==========================================
 khoHoa["Hoa Kính Viếng"] = [
   { file: "1 (1).jpg", ten: "Kệ Hoa Kính Viếng Lan Trắng 2 Tầng", moTa: "Thiết kế 2 tầng trang trọng với hoa lan trắng, gửi lời thành kính phân ưu." },
   { file: "1 (2).jpg", ten: "Kệ Hoa Chia Buồn Trắng Tinh Khôi", moTa: "Kệ hoa 1 tầng tone trắng nhẹ nhàng, xoa dịu nỗi đau mất mát." },
@@ -80,17 +116,21 @@ khoHoa["Hoa Kính Viếng"] = [
   { file: "1 (50).jpg", ten: "Kệ Kính Viếng Phù Hợp Người Trẻ", moTa: "Tone trắng tinh khiết, xót thương cho một kiếp người dở dang." }
 ];
 
-// --- BỘ TỪ ĐIỂN SEO BÓ HOA (106 MẪU) ---
-// --- BỘ TỪ ĐIỂN TỰ ĐỘNG CHO BÓ HOA (CHUẨN SEO, KHÔNG BAO GIỜ SAI MÀU) ---
+// ==========================================
+// 3. DANH MỤC BÓ HOA (106 MẪU TỰ ĐỘNG)
+// ==========================================
 khoHoa["Bó Hoa"] = [];
-for (let i = 1; i <= 106; i++) { // Nếu bạn có 100 tấm thì sửa số 106 thành 100 nhé
+for (let i = 1; i <= 106; i++) {
   khoHoa["Bó Hoa"].push({
-    file: `bohoa (${i}).jpg`, // Code sẽ tự tìm đúng file bohoa (1).jpg, bohoa (2).jpg...
+    file: `bohoa (${i}).jpg`, 
     ten: `Bó Hoa Thiết Kế Cao Cấp #${i}`,
     moTa: "Mẫu bó hoa tươi thiết kế sang trọng, phong cách hiện đại. Phù hợp tặng sinh nhật, kỷ niệm và các dịp lễ quan trọng tại Hoa Tươi Thanh Ngọc."
   });
 }
 
+// ==========================================
+// 4. DANH MỤC HOA ĐỂ BÀN
+// ==========================================
 khoHoa["Hoa Để Bàn"] = [
   { file: "IMG_3439.JPG", ten: "Bình Hoa Xanh Blue Huyền Bí", moTa: "Bình hoa để bàn với tone xanh dương lạ mắt." },
   { file: "IMG_3441.JPG", ten: "Chậu Hoa Để Bàn Vàng Lan Vũ Nữ", moTa: "Mẫu hoa cắm bình nghệ thuật rực rỡ." },
@@ -111,12 +151,18 @@ khoHoa["Hoa Để Bàn"] = [
   { file: "IMG_3509.JPG", ten: "Hộp Hoa Đỏ Cam Để Bàn Quyền Lực", moTa: "Tone màu cháy bỏng rực rỡ cắm trên hộp trụ." }
 ];
 
+// ==========================================
+// 5. DANH MỤC LẴNG / GIỎ HOA
+// ==========================================
 khoHoa["Lẵng/Giỏ Hoa"] = [
   { file: "IMG_3454.JPG", ten: "Lẵng Hoa Đỏ Mix Lá Bạc Sang Trọng", moTa: "Sắc đỏ thắm của hoa hồng nổi bật trên lá bạc." },
   { file: "IMG_3478.JPG", ten: "Giỏ Hoa Trắng Xanh Lá Mộc Mạc", moTa: "Giỏ hoa phong cách đồng quê." },
   { file: "IMG_3485.JPG", ten: "Giỏ Hoa Hồng Đỏ Tình Yêu Mộc", moTa: "Hoa hồng đỏ rực mix trong hộp gỗ." }
 ];
 
+// ==========================================
+// 6. DANH MỤC HOA BABY
+// ==========================================
 khoHoa["Hoa Baby"] = [
   { file: "IMG_3425.JPG", ten: "Chậu Hoa Baby Xanh Blue Cô Gái", moTa: "Hoa baby nhuộm xanh blue cắm chậu nghệ thuật." },
   { file: "IMG_3463.JPG", ten: "Bó Hoa Baby Hồng Khổng Lồ", moTa: "Hoa baby nhuộm hồng bồng bềnh siêu to." },
