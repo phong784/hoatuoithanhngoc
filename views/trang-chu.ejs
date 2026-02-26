@@ -1,342 +1,452 @@
 <%- include('partials/header') %>
-
   <style>
-    /* --- PHỤC HỒI NÚT 3 GẠCH, CHỈ GIẤU CHỮ BỊ TRÙNG --- */
-    .thanh-menu-chinh {
-      background: transparent !important;
-      padding: 15px 15px 0 !important;
-      text-align: right !important;
-      /* Đẩy nút 3 gạch sang góc phải cho xịn */
-    }
-
-    .thanh-menu-chinh h1,
-    .thanh-menu-chinh p,
-    .thanh-menu-chinh .lien-he-header,
-    .thanh-menu-chinh hr {
+    /* 1. XÓA CHỮ TRÙNG LẶP */
+    .logo-shop,
+    .thanh-menu-chinh .logo-area,
+    .logo-tron {
       display: none !important;
-      /* Lệnh bắn tỉa: Chỉ xóa chữ và đường kẻ, tha mạng cho nút 3 gạch */
     }
 
-    /* --- PHỤC HỒI NỀN WEB GRADIENT SANG TRỌNG --- */
-    body {
-      background: linear-gradient(135deg, #fdfbf7 0%, #eef7f6 100%);
-      background-attachment: fixed;
-      min-height: 100vh;
-      margin: 0;
-      font-family: 'Quicksand', sans-serif;
-      color: #333;
-    }
-
-    /* --- BANNER ẢNH TRANG CHỦ (ĐÃ KÉO CAO LÊN TRÔNG HOÀNH TRÁNG HƠN) --- */
-    .banner-chinh {
-      text-align: center;
-      max-width: 1200px;
-      margin: 0 auto 15px;
-      padding: 0 15px;
-    }
-
-    .banner-chinh img {
-      width: 100%;
-      height: 350px;
-      /* <--- KÉO CAO TRÊN MÁY TÍNH LÊN 350px */
-      object-fit: cover;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(10, 124, 118, 0.15);
-    }
-
-    /* --- DANH MỤC VUỐT NGANG --- */
-    .danh-muc-nhanh {
-      display: flex;
-      overflow-x: auto;
-      gap: 12px;
-      padding: 5px 15px 15px;
-      margin-bottom: 15px;
-      white-space: nowrap;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .danh-muc-nhanh::-webkit-scrollbar {
-      display: none;
-    }
-
-    .chip-danh-muc {
-      background-color: #ffffff;
-      color: #0A7C76;
-      padding: 10px 22px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-      border: 1px solid transparent;
-    }
-
-    .chip-danh-muc:hover,
-    .chip-danh-muc.active {
-      background: linear-gradient(135deg, #0A7C76, #149c95);
-      color: #ffffff;
-      box-shadow: 0 6px 15px rgba(10, 124, 118, 0.3);
-      transform: translateY(-2px);
-    }
-
-    /* --- THANH TÌM KIẾM --- */
-    .khung-tim-kiem {
-      max-width: 600px;
-      margin: 15px auto 20px;
-      padding: 0 15px;
-      position: relative;
-    }
-
-    .khung-tim-kiem .icon-tim-kiem {
-      position: absolute;
-      left: 35px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-      pointer-events: none;
-      color: #0a7c76;
-    }
-
-    .khung-tim-kiem input {
-      width: 100%;
-      padding: 16px 20px 16px 50px;
-      border-radius: 30px;
-      border: 1px solid #e0eceb;
-      font-size: 15px;
-      outline: none;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.04);
-      transition: all 0.3s ease;
-      box-sizing: border-box;
-      background: #fff;
-    }
-
-    .khung-tim-kiem input:focus {
-      box-shadow: 0 6px 20px rgba(10, 124, 118, 0.15);
-      border-color: #0a7c76;
-    }
-
-    /* --- LƯỚI SẢN PHẨM HIỆN ĐẠI --- */
-    .luoi-san-pham {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 25px;
-      padding: 0 15px 15px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    /* 2. HIỆU ỨNG CHUYỂN ĐỘNG (SCROLL) */
     .the-san-pham {
-      border-radius: 20px;
-      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+
+    .the-san-pham.hien-ra {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ZOOM ẢNH KHI DI CHUỘT */
+    .the-san-pham:hover img {
+      transform: scale(1.1) !important;
+      transition: 0.4s !important;
+    }
+
+    /* 3. NÚT XEM THÊM CHUYÊN NGHIỆP */
+    .khu-vuc-nut {
       text-align: center;
-      background: #fff;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      padding-bottom: 20px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+      margin: 40px 0;
+      width: 100%;
+    }
+
+    #nut-xem-them {
+      background: #0a7c76;
+      color: white;
       border: none;
-      position: relative;
-    }
-
-    .the-san-pham:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 35px rgba(10, 124, 118, 0.15);
-    }
-
-    .the-san-pham img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .the-san-pham h3 {
-      font-size: 16px;
-      color: #2c3e50;
-      margin: 15px 15px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      height: 44px;
-      font-weight: 700;
-      line-height: 1.4;
-    }
-
-    .the-san-pham a.btn-chi-tiet {
-      display: inline-block;
-      padding: 10px 25px;
-      background: linear-gradient(135deg, #0A7C76, #149c95);
-      color: #ffffff;
-      text-decoration: none;
-      border-radius: 25px;
+      padding: 12px 35px;
+      border-radius: 30px;
       font-weight: bold;
-      font-size: 14px;
-      transition: all 0.3s;
-      box-shadow: 0 4px 10px rgba(10, 124, 118, 0.2);
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(10, 124, 118, 0.3);
     }
 
-    .the-san-pham a.btn-chi-tiet:hover {
-      background: linear-gradient(135deg, #08615c, #0A7C76);
-      box-shadow: 0 6px 15px rgba(10, 124, 118, 0.3);
-    }
-
-    /* --- TỐI ƯU CỰC MƯỢT CHO ĐIỆN THOẠI --- */
-    @media (max-width: 768px) {
-      .luoi-san-pham {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 0 12px 15px;
-      }
-
-      .the-san-pham {
-        border-radius: 16px;
-        padding-bottom: 15px;
-      }
-
-      .the-san-pham img {
-        height: 190px;
-      }
-
-      .the-san-pham h3 {
-        font-size: 14px;
-        margin: 12px 8px;
-        height: 40px;
-      }
-
-      .the-san-pham a.btn-chi-tiet {
-        padding: 8px 18px;
-        font-size: 12px;
-      }
-
-      .banner-chinh img {
-        height: 220px;
-        /* <--- KÉO CAO TRÊN ĐIỆN THOẠI LÊN 220px */
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .the-san-pham {
-      animation: fadeInUp 0.6s ease-out forwards;
+    #nut-xem-them:hover {
+      background: #e5732a;
+      transform: scale(1.05);
     }
   </style>
 
-  <div class="banner-chinh">
-    <img src="/nen-web.jpg" alt="Hoa Tươi Thanh Ngọc" onerror="this.style.display='none'">
-  </div>
-
-  <div class="khung-tim-kiem">
-    <span class="icon-tim-kiem">🔍</span>
-    <input type="text" id="oTimKiem" placeholder="Bạn cần tìm hoa gì (vd: khai trương, bó hoa)...">
-  </div>
-
-  <div class="danh-muc-nhanh">
-    <a href="/" class="chip-danh-muc active">Tất Cả</a>
-    <a href="/?danhmuc=Hoa Khai Trương" class="chip-danh-muc">Khai Trương</a>
-    <a href="/?danhmuc=Hoa Kính Viếng" class="chip-danh-muc">Kính Viếng</a>
-    <a href="/?danhmuc=Bó Hoa" class="chip-danh-muc">Bó Hoa</a>
-    <a href="/?danhmuc=Lẵng/Giỏ Hoa" class="chip-danh-muc">Lẵng/Giỏ</a>
-    <a href="/?danhmuc=Hoa Để Bàn" class="chip-danh-muc">Hoa Để Bàn</a>
-    <a href="/?danhmuc=Hoa Baby" class="chip-danh-muc">Hoa Baby</a>
-  </div>
-
-  <div class="luoi-san-pham" id="danhSachHoa">
-    <% danhSach.forEach((item, index)=> { %>
-      <div class="the-san-pham" data-delay="<%= (index * 0.05).toFixed(2) %>">
-        <a href="/san-pham/<%= item.slug %>">
-          <img src="<%= item.hinhAnh %>" alt="<%= item.ten %>" decoding="async">
-        </a>
-        <h3 class="ten-hoa-hien-thi">
-          <%= item.ten %>
-        </h3>
-        <a href="/san-pham/<%= item.slug %>" class="btn-chi-tiet">Xem Chi Tiết</a>
-      </div>
-      <% }) %>
-  </div>
-
-  <div style="text-align: center; margin: 10px 0 40px; width: 100%;">
-    <button id="nut-xem-them" style="background: linear-gradient(135deg, #0A7C76, #149c95); color: white; padding: 12px 40px; border: none; border-radius: 25px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(10, 124, 118, 0.2); cursor: pointer; transition: all 0.3s; display: none;">
-      Xem thêm hoa...
-    </button>
+  <div class="khu-vuc-nut">
+    <button id="nut-xem-them" style="display: none;">Xem thêm sản phẩm</button>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const danhSachHoa = Array.from(document.querySelectorAll('.the-san-pham'));
-      const nutXemThem = document.getElementById('nut-xem-them');
-      const oTimKiem = document.getElementById('oTimKiem');
-      
-      let soHoaHienTai = 10; // Hiện 10 lẵng đầu
-      const soHoaThem = 10;  // Mỗi lần bấm xổ thêm 10 lẵng
+    document.addEventListener("DOMContentLoaded", function () {
+      const items = document.querySelectorAll('.the-san-pham');
+      const btn = document.getElementById('nut-xem-them');
+      let hienTai = 20; // Hiện 20 ảnh đầu tiên
 
-      // Hàm điều khiển hiển thị số lượng hoa
-      function capNhatHienThi() {
-        danhSachHoa.forEach((hoa, index) => {
-          if (index >= soHoaHienTai) {
-            hoa.style.display = 'none';
+      const checkScroll = () => {
+        items.forEach(item => {
+          if (item.getBoundingClientRect().top < window.innerHeight * 0.9) {
+            item.classList.add('hien-ra');
+          }
+        });
+      };
+
+      const capNhat = () => {
+        items.forEach((item, i) => {
+          if (i < hienTai) {
+            item.style.display = 'block';
+            setTimeout(() => item.classList.add('hien-ra'), 100);
           } else {
-            hoa.style.display = 'block';
+            item.style.display = 'none';
+          }
+        });
+        btn.style.display = hienTai < items.length ? 'inline-block' : 'none';
+      };
+
+      window.addEventListener('scroll', checkScroll);
+      btn.addEventListener('click', () => {
+        hienTai += 20;
+        capNhat();
+      });
+
+      capNhat(); // Chạy lần đầu
+    });
+  </script>FF
+  <style>
+    /* XÓA CHỮ TRÙNG LẶP */
+    .logo-shop,
+    .thanh-menu-chinh .logo-area {
+      display: none !important;
+    }
+
+    /* HIỆU ỨNG CHUYỂN ĐỘNG KHI CUỘN (SCROLL ANIMATION) */
+    .the-san-pham {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+
+    .the-san-pham.hien-ra {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ZOOM ẢNH KHI DI CHUỘT */
+    .the-san-pham:hover img {
+      transform: scale(1.1);
+      transition: 0.4s;
+    }
+
+    /* NÚT XEM THÊM CHUYÊN NGHIỆP */
+    .khu-vuc-nut {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    #nut-xem-them {
+      background: #0a7c76;
+      color: white;
+      border: none;
+      padding: 12px 35px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(10, 124, 118, 0.3);
+    }
+
+    #nut-xem-them:hover {
+      background: #e5732a;
+      transform: scale(1.05);
+    }
+  </style>
+
+  <div class="khu-vuc-nut">
+    <button id="nut-xem-them" style="display: none;">Xem thêm sản phẩm</button>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const items = document.querySelectorAll('.the-san-pham');
+      const btn = document.getElementById('nut-xem-them');
+      let hienTai = 20; // Hiện 20 ảnh đầu tiên theo ý bạn
+
+      // Hàm kiểm tra hiệu ứng khi cuộn chuột
+      const checkScroll = () => {
+        items.forEach(item => {
+          if (item.getBoundingClientRect().top < window.innerHeight * 0.9) {
+            item.classList.add('hien-ra');
+          }
+        });
+      };
+
+      const capNhat = () => {
+        items.forEach((item, i) => {
+          item.style.display = i < hienTai ? 'block' : 'none';
+        });
+        btn.style.display = hienTai < items.length ? 'inline-block' : 'none';
+        checkScroll();
+      };
+
+      window.addEventListener('scroll', checkScroll);
+      btn.addEventListener('click', () => { hienTai += 20; capNhat(); });
+
+      capNhat(); // Chạy lần đầu
+    });
+  </script>
+  .the-san-pham {
+  border-radius: 20px;
+  overflow: hidden;
+  text-align: center;
+  background: #fff;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  border: none;
+  position: relative;
+  }
+
+  .the-san-pham:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(10, 124, 118, 0.15);
+  }
+
+  .the-san-pham img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-bottom: 1px solid #f0f0f0;
+  }
+
+  .the-san-pham h3 {
+  font-size: 16px;
+  color: #2c3e50;
+  margin: 15px 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 44px;
+  font-weight: 700;
+  line-height: 1.4;
+  }
+
+  .the-san-pham a.btn-chi-tiet {
+  display: inline-block;
+  padding: 10px 25px;
+  background: linear-gradient(135deg, #0A7C76, #149c95);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(10, 124, 118, 0.2);
+  }
+
+  .the-san-pham a.btn-chi-tiet:hover {
+  background: linear-gradient(135deg, #08615c, #0A7C76);
+  box-shadow: 0 6px 15px rgba(10, 124, 118, 0.3);
+  }
+
+  /* --- TỐI ƯU CỰC MƯỢT CHO ĐIỆN THOẠI --- */
+  @media (max-width: 768px) {
+  .luoi-san-pham {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 0 12px 15px;
+  }
+
+  .the-san-pham {
+  border-radius: 16px;
+  padding-bottom: 15px;
+  }
+
+  .the-san-pham img {
+  height: 190px;
+  }
+
+  .the-san-pham h3 {
+  font-size: 14px;
+  margin: 12px 8px;
+  height: 40px;
+  }
+
+  .the-san-pham a.btn-chi-tiet {
+  padding: 8px 18px;
+  font-size: 12px;
+  }
+
+  .banner-chinh img {
+  height: 220px;
+  /* <--- KÉO CAO TRÊN ĐIỆN THOẠI LÊN 220px */ } } @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px);
+    } to { opacity: 1; transform: translateY(0); } } .the-san-pham { animation: fadeInUp 0.6s ease-out forwards; }
+    </style>
+
+    <div class="banner-chinh">
+      <img src="/nen-web.jpg" alt="Hoa Tươi Thanh Ngọc" onerror="this.style.display='none'">
+    </div>
+
+    <div class="khung-tim-kiem">
+      <span class="icon-tim-kiem">🔍</span>
+      <input type="text" id="oTimKiem" placeholder="Bạn cần tìm hoa gì (vd: khai trương, bó hoa)...">
+    </div>
+
+    <div class="danh-muc-nhanh">
+      <a href="/" class="chip-danh-muc active">Tất Cả</a>
+      <a href="/?danhmuc=Hoa Khai Trương" class="chip-danh-muc">Khai Trương</a>
+      <a href="/?danhmuc=Hoa Kính Viếng" class="chip-danh-muc">Kính Viếng</a>
+      <a href="/?danhmuc=Bó Hoa" class="chip-danh-muc">Bó Hoa</a>
+      <a href="/?danhmuc=Lẵng/Giỏ Hoa" class="chip-danh-muc">Lẵng/Giỏ</a>
+      <a href="/?danhmuc=Hoa Để Bàn" class="chip-danh-muc">Hoa Để Bàn</a>
+      <a href="/?danhmuc=Hoa Baby" class="chip-danh-muc">Hoa Baby</a>
+    </div>
+
+    <div class="luoi-san-pham" id="danhSachHoa">
+      <% danhSach.forEach((item, index)=> { %>
+        <div class="the-san-pham" data-delay="<%= (index * 0.05).toFixed(2) %>">
+          <a href="/san-pham/<%= item.slug %>">
+            <img src="<%= item.hinhAnh %>" alt="<%= item.ten %>" decoding="async">
+          </a>
+          <h3 class="ten-hoa-hien-thi">
+            <%= item.ten %>
+          </h3>
+          <a href="/san-pham/<%= item.slug %>" class="btn-chi-tiet">Xem Chi Tiết</a>
+        </div>
+        <% }) %>
+    </div>
+
+    <div style="text-align: center; margin: 10px 0 40px; width: 100%;">
+      <button id="nut-xem-them"
+        style="background: linear-gradient(135deg, #0A7C76, #149c95); color: white; padding: 12px 40px; border: none; border-radius: 25px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(10, 124, 118, 0.2); cursor: pointer; transition: all 0.3s; display: none;">
+        Xem thêm hoa...
+      </button>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const danhSachHoa = Array.from(document.querySelectorAll('.the-san-pham'));
+        const nutXemThem = document.getElementById('nut-xem-them');
+        const oTimKiem = document.getElementById('oTimKiem');
+
+        let soHoaHienTai = 10; // Hiện 10 lẵng đầu
+        const soHoaThem = 10;  // Mỗi lần bấm xổ thêm 10 lẵng
+
+        // Hàm điều khiển hiển thị số lượng hoa
+        function capNhatHienThi() {
+          danhSachHoa.forEach((hoa, index) => {
+            if (index >= soHoaHienTai) {
+              hoa.style.display = 'none';
+            } else {
+              hoa.style.display = 'block';
+            }
+          });
+
+          // Giấu hoặc hiện nút "Xem thêm"
+          if (soHoaHienTai >= danhSachHoa.length) {
+            nutXemThem.style.display = 'none';
+          } else {
+            nutXemThem.style.display = 'inline-block';
+          }
+        }
+
+        // 1. Chạy hàm giấu bớt hoa ngay khi vừa load web
+        if (danhSachHoa.length > 0) {
+          capNhatHienThi();
+        }
+
+        // 2. Xử lý khi khách bấm nút "Xem thêm hoa"
+        nutXemThem.addEventListener('click', function () {
+          soHoaHienTai += soHoaThem; // Cộng thêm 10 hoa
+          capNhatHienThi(); // Cập nhật lại giao diện
+        });
+
+        // 3. Xử lý khi khách gõ tìm kiếm
+        oTimKiem.addEventListener('input', function () {
+          let tuKhoa = this.value.toLowerCase().trim();
+
+          if (tuKhoa === '') {
+            // Nếu xóa trắng ô tìm kiếm -> Trả lại trạng thái Xem thêm
+            capNhatHienThi();
+          } else {
+            // Nếu đang tìm kiếm -> Ẩn nút xem thêm, bung toàn bộ hoa ra tìm
+            nutXemThem.style.display = 'none';
+            danhSachHoa.forEach(sanPham => {
+              let tenHoa = sanPham.querySelector('.ten-hoa-hien-thi').textContent.toLowerCase();
+              sanPham.style.display = tenHoa.includes(tuKhoa) ? 'block' : 'none';
+            });
           }
         });
 
-        // Giấu hoặc hiện nút "Xem thêm"
-        if (soHoaHienTai >= danhSachHoa.length) {
-          nutXemThem.style.display = 'none';
-        } else {
-          nutXemThem.style.display = 'inline-block';
+        // Hiệu ứng delay rơi từng lẵng hoa
+        document.querySelectorAll('.the-san-pham').forEach(element => {
+          const delay = element.getAttribute('data-delay');
+          element.style.animationDelay = delay + 's';
+        });
+      });
+    </script>
+
+    <%- include('partials/footer') %>
+      <style>
+        /* 1. XÓA CHỮ HOA TƯƠI THANH NGỌC DƯ THỪA TRÊN ĐẦU TRANG */
+        .logo-shop,
+        .thanh-menu-chinh h1,
+        .thanh-menu-chinh p {
+          display: none !important;
         }
-      }
 
-      // 1. Chạy hàm giấu bớt hoa ngay khi vừa load web
-      if (danhSachHoa.length > 0) {
-        capNhatHienThi();
-      }
-
-      // 2. Xử lý khi khách bấm nút "Xem thêm hoa"
-      nutXemThem.addEventListener('click', function() {
-        soHoaHienTai += soHoaThem; // Cộng thêm 10 hoa
-        capNhatHienThi(); // Cập nhật lại giao diện
-      });
-
-      // 3. Xử lý khi khách gõ tìm kiếm
-      oTimKiem.addEventListener('input', function () {
-        let tuKhoa = this.value.toLowerCase().trim();
-        
-        if (tuKhoa === '') {
-          // Nếu xóa trắng ô tìm kiếm -> Trả lại trạng thái Xem thêm
-          capNhatHienThi();
-        } else {
-          // Nếu đang tìm kiếm -> Ẩn nút xem thêm, bung toàn bộ hoa ra tìm
-          nutXemThem.style.display = 'none';
-          danhSachHoa.forEach(sanPham => {
-            let tenHoa = sanPham.querySelector('.ten-hoa-hien-thi').textContent.toLowerCase();
-            sanPham.style.display = tenHoa.includes(tuKhoa) ? 'block' : 'none';
-          });
+        /* 2. HIỆU ỨNG HOA CHUYỂN ĐỘNG CAO CẤP */
+        .the-san-pham {
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+          overflow: hidden;
+          /* Đảm bảo ảnh không lòi ra ngoài khi zoom */
         }
-      });
 
-      // Hiệu ứng delay rơi từng lẵng hoa
-      document.querySelectorAll('.the-san-pham').forEach(element => {
-        const delay = element.getAttribute('data-delay');
-        element.style.animationDelay = delay + 's';
-      });
-    });
-  </script>
+        .the-san-pham img {
+          transition: transform 0.6s ease !important;
+          /* Ảnh zoom mượt */
+        }
 
-  <%- include('partials/footer') %>
+        /* Khi khách hàng rê chuột (hoặc chạm tay) vào ảnh hoa */
+        .the-san-pham:hover {
+          transform: translateY(-10px) !important;
+          /* Nẩy nhẹ lẵng hoa lên */
+          box-shadow: 0 15px 35px rgba(10, 124, 118, 0.2) !important;
+          /* Tỏa bóng mờ xịn xò */
+        }
+
+        .the-san-pham:hover img {
+          transform: scale(1.08) !important;
+          /* Zoom nhẹ bông hoa vào gần mắt khách */
+        }
+
+        /* 3. NÚT XEM THÊM HOA SIÊU ĐẸP */
+        #nut-xem-them {
+          background: linear-gradient(135deg, #0A7C76, #149c95);
+          color: white;
+          padding: 12px 40px;
+          border: none;
+          border-radius: 25px;
+          font-weight: bold;
+          font-size: 16px;
+          margin: 20px auto;
+          display: block;
+          box-shadow: 0 4px 10px rgba(10, 124, 118, 0.2);
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        #nut-xem-them:hover {
+          transform: scale(1.05);
+        }
+      </style>
+
+      <button id="nut-xem-them" style="display: none;">Xem thêm hoa...</button>
+
+      <script>
+        // 4. BỘ NÃO XỬ LÝ: CHỈ HIỆN 12 ẢNH ĐẦU TIÊN
+        document.addEventListener("DOMContentLoaded", function () {
+          const danhSachHoa = document.querySelectorAll('.the-san-pham');
+          const nutXemThem = document.getElementById('nut-xem-them');
+          let soHoaHienTai = 12; // Ban đầu chỉ hiện 12 lẵng cho gọn
+
+          if (danhSachHoa.length > 0) {
+            // Giấu bớt đi
+            danhSachHoa.forEach((hoa, index) => {
+              if (index >= soHoaHienTai) hoa.style.display = 'none';
+            });
+
+            // Hiện nút "Xem thêm" nếu còn hoa bị giấu
+            if (danhSachHoa.length > soHoaHienTai) nutXemThem.style.display = 'block';
+
+            // Khi khách bấm nút
+            nutXemThem.addEventListener('click', function () {
+              let soHoaTiepTheo = soHoaHienTai + 12; // Bấm thì xổ thêm 12 lẵng nữa
+              for (let i = soHoaHienTai; i < soHoaTiepTheo; i++) {
+                if (danhSachHoa[i]) danhSachHoa[i].style.display = 'block';
+              }
+              soHoaHienTai = soHoaTiepTheo;
+              // Hết hoa thì ẩn nút đi
+              if (soHoaHienTai >= danhSachHoa.length) nutXemThem.style.display = 'none';
+            });
+          }
+        });
+      </script>

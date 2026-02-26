@@ -2,11 +2,12 @@
   /* --- CSS CHUẨN CHO THANH MENU --- */
   .thanh-menu-chinh {
     background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
   }
+
   .menu-container {
     display: flex;
     justify-content: space-between;
@@ -15,12 +16,15 @@
     max-width: 1200px;
     margin: 0 auto;
   }
+
   .logo-shop {
     font-size: 24px;
     font-weight: 700;
-    color: #0A7C76; /* Màu xanh chủ đạo của web bạn */
+    color: #0A7C76;
+    /* Màu xanh chủ đạo của web bạn */
     text-decoration: none;
   }
+
   .danh-sach-menu {
     display: flex;
     list-style: none;
@@ -28,6 +32,7 @@
     padding: 0;
     gap: 25px;
   }
+
   .danh-sach-menu li a {
     text-decoration: none;
     color: #333;
@@ -35,9 +40,12 @@
     font-size: 16px;
     transition: color 0.3s ease;
   }
+
   .danh-sach-menu li a:hover {
-    color: #E5732A; /* Màu cam nhấn */
+    color: #E5732A;
+    /* Màu cam nhấn */
   }
+
   .nut-3-gach {
     display: none;
     cursor: pointer;
@@ -51,27 +59,34 @@
   /* --- TỐI ƯU CHO ĐIỆN THOẠI (MOBILE) --- */
   @media (max-width: 768px) {
     .nut-3-gach {
-      display: block; /* Hiện nút 3 gạch trên mobile */
+      display: block;
+      /* Hiện nút 3 gạch trên mobile */
     }
+
     .danh-sach-menu {
-      display: none; /* Ẩn menu ngang */
+      display: none;
+      /* Ẩn menu ngang */
       flex-direction: column;
       position: absolute;
       top: 100%;
       left: 0;
       width: 100%;
       background-color: #ffffff;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
       padding: 0;
       gap: 0;
     }
+
     .danh-sach-menu.hien-thi {
-      display: flex; /* Hiện menu dọc khi bấm nút */
+      display: flex;
+      /* Hiện menu dọc khi bấm nút */
     }
+
     .danh-sach-menu li {
       width: 100%;
       border-bottom: 1px solid #f0f0f0;
     }
+
     .danh-sach-menu li a {
       display: block;
       padding: 15px 20px;
@@ -82,7 +97,7 @@
 <header class="thanh-menu-chinh">
   <div class="menu-container">
     <div style="flex: 1;"></div>
-    
+
     <button class="nut-3-gach" id="nut-menu-mobile">
       ☰
     </button>
@@ -98,7 +113,7 @@
 </header>
 
 <script>
-  document.getElementById('nut-menu-mobile').addEventListener('click', function() {
+  document.getElementById('nut-menu-mobile').addEventListener('click', function () {
     var menu = document.getElementById('menu-chinh');
     menu.classList.toggle('hien-thi');
     // Đổi icon từ 3 gạch sang dấu X
@@ -112,122 +127,131 @@
 
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= duLieu.tenShop %></title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
-      body {
-        font-family: "Quicksand", sans-serif;
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(
-          to bottom,
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= duLieu.tenShop %>
+  </title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: "Quicksand", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom,
           #0a7c76 0%,
           #fdfbf7 30%,
-          #fcdcb0 100%
-        );
-        background-attachment: fixed;
-        color: #333;
+          #fcdcb0 100%);
+      background-attachment: fixed;
+      color: #333;
+    }
+
+    .thanh-menu {
+      background-color: #0a7c76;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-tron {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background: white;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .btn-dat-hoa {
+      background: #e5732a;
+      padding: 8px 20px;
+      border-radius: 20px;
+      color: white !important;
+    }
+
+    /* KHUNG DANH SÁCH HOA - FIX LỖI TO PHÌNH */
+    .danh-sach-san-pham {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px 0;
+    }
+
+    .san-pham {
+      background: white;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: 0.3s;
+      border: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .anh-san-pham {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .ten-hoa {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 15px 0 10px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
       }
-      .thanh-menu {
-        background-color: #0a7c76;
-        padding: 10px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: white;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-      .logo-area {
-        display: flex;
-        align-items: center;
+
+      .danh-sach-san-pham {
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
       }
-      .logo-tron {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 2px solid white;
-        background: white;
-      }
-      .nav-links {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-      }
-      .nav-links a {
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 14px;
-      }
-      .btn-dat-hoa {
-        background: #e5732a;
-        padding: 8px 20px;
-        border-radius: 20px;
-        color: white !important;
-      }
 
-      /* KHUNG DANH SÁCH HOA - FIX LỖI TO PHÌNH */
-      .danh-sach-san-pham {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 20px;
-        padding: 20px 0;
-      }
-      .san-pham {
-        background: white;
-        border-radius: 15px;
-        padding: 15px;
-        text-align: center;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        transition: 0.3s;
-        border: 1px solid #eee;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
+      /* Mobile hiện 2 cột */
       .anh-san-pham {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 10px;
-      }
-      .ten-hoa {
-        font-size: 15px;
-        font-weight: 700;
-        margin: 15px 0 10px;
-        height: 40px;
-        overflow: hidden;
+        height: 160px;
       }
 
-      @media (max-width: 768px) {
-        .nav-links {
-          display: none;
-        }
-        .danh-sach-san-pham {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 10px;
-        } /* Mobile hiện 2 cột */
-        .anh-san-pham {
-          height: 160px;
-        }
-        .ten-hoa {
-          font-size: 13px;
-        }
+      .ten-hoa {
+        font-size: 13px;
       }
-    </style>
-  </head>
+    }
+  </style>
+</head>
+
 </html>

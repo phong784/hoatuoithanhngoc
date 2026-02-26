@@ -146,7 +146,7 @@ const tuDienSEO = {
 
 // --- HỆ THỐNG TỰ ĐỘNG ---
 function chuanHoaTen(str) {
-  if(!str) return '';
+  if (!str) return '';
   return str.toLowerCase().replace(/\.(jpg|jpeg|png|webp)$/i, '').trim();
 }
 
@@ -180,13 +180,13 @@ function doanDanhMuc(tenHoa) {
   if (t.includes('chậu') || t.includes('bình') || t.includes('hộp') || t.includes('để bàn')) return 'Hoa Để Bàn';
   if (t.includes('baby')) return 'Hoa Baby';
   if (t.includes('chia buồn') || t.includes('đám tang')) return 'Hoa Chia Buồn';
-  return 'Hoa Thiết Kế'; 
+  return 'Hoa Thiết Kế';
 }
 
 const thuMucAnh = path.join(__dirname, 'public');
 if (!fs.existsSync(thuMucAnh)) fs.mkdirSync(thuMucAnh);
 
-const cacFileAnh = fs.readdirSync(thuMucAnh).filter(file => 
+const cacFileAnh = fs.readdirSync(thuMucAnh).filter(file =>
   (file.toLowerCase().endsWith('.jpg') || file.toLowerCase().endsWith('.jpeg')) &&
   !['IMG_3390.jpg', 'banner-ai.jpg', 'nen-web.jpg'].includes(file)
 );
@@ -199,21 +199,21 @@ const danhSachHoa = cacFileAnh.map((tenFile, index) => {
     id: index + 1,
     slug: taoSlug(tenHienThi) + '-' + (index + 1), // ĐÂY CHÍNH LÀ TRÁI TIM CỦA ĐƯỜNG LINK!
     ten: tenHienThi,
-    danhMuc: doanDanhMuc(tenHienThi), 
+    danhMuc: doanDanhMuc(tenHienThi),
     hinhAnh: `/${tenFile}`,
     moTa: thongTin ? thongTin.moTa : "Mẫu hoa tươi thiết kế sang trọng tại Thanh Ngọc."
   };
 });
 
 // --- ROUTES ---
-app.get('/', (req, res) => { 
+app.get('/', (req, res) => {
   // TÍNH NĂNG MỚI: Tự động lọc hoa khi bấm vào danh mục vuốt ngang!
   const danhmuc = req.query.danhmuc;
   let danhSachHienThi = danhSachHoa;
   if (danhmuc) {
-      danhSachHienThi = danhSachHoa.filter(h => h.danhMuc === danhmuc);
+    danhSachHienThi = danhSachHoa.filter(h => h.danhMuc === danhmuc);
   }
-  res.render('trang-chu', { duLieu: thongTinCuaHang, danhSach: danhSachHienThi }); 
+  res.render('trang-chu', { duLieu: thongTinCuaHang, danhSach: danhSachHienThi });
 });
 
 app.get('/san-pham/:id_or_slug', (req, res) => {
