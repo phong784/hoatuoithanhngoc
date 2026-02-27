@@ -206,6 +206,9 @@ const danhSachHoa = cacFileAnh.map((tenFile, index) => {
 });
 
 // --- ROUTES ---
+app.get('/blog-1', (req, res) => {
+    res.render('blog-1');
+});
 app.get('/', (req, res) => {
   // TÍNH NĂNG MỚI: Tự động lọc hoa khi bấm vào danh mục vuốt ngang!
   const danhmuc = req.query.danhmuc;
