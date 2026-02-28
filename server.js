@@ -14,6 +14,32 @@ app.set('trust proxy', true);
 
 app.use((req, res, next) => {
   try {
+    // --- BEGIN: Redirect non-www -> www (with debug logs) ---
+app.set('trust proxy', true);
+
+app.use((req, res, next) => {
+  try {
+    const hostHeader = req.headers.host || '';
+    // remove port if present
+    const host = hostHeader.split(':')[0].toLowerCase();
+    const xForwardedHost = (req.headers['x-forwarded-host'] || '').toLowerCase();
+    const xForwardedProto = (req.headers['x-forwarded-proto'] || '').toLowerCase();
+
+    // debug log so we can inspect what's actually coming in on Render
+    console.log(`[REDIRECT-MW] hostHeader=${hostHeader} host=${host} x-forwarded-host=${xForwardedHost} x-forwarded-proto=${xForwardedProto} originalUrl=${req.originalUrl}`);
+
+    // only redirect real apex requests
+    if (host === 'hoatuoithanhngoc.com') {
+      const target = `https://www.hoatuoithanhngoc.com${req.originalUrl || '/'}`;
+      console.log(`[REDIRECT-MW] redirecting to ${target}`);
+      return res.redirect(301, target);
+    }
+  } catch (err) {
+    console.error('[REDIRECT-MW] error', err);
+  }
+  next();
+});
+// --- END: Redirect non-www -> www (with debug logs) ---
     const hostHeader = req.headers.host || '';
     // remove port if present (example: "hoatuoithanhngoc.com:443")
     const host = hostHeader.split(':')[0].toLowerCase();
