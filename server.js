@@ -1,7 +1,34 @@
+// @ts-nocheck
+/* cspell:disable */
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+// --- BEGIN: Redirect non-www -> www (Add this) ---
+/**
+ * Ensure Express trusts proxy headers so we can detect HTTPS behind Render's proxy.
+ * Then redirect requests from hoatuoithanhngoc.com -> https://www.hoatuoithanhngoc.com
+ */
+app.set('trust proxy', true);
+
+app.use((req, res, next) => {
+  try {
+    const hostHeader = req.headers.host || '';
+    // remove port if present (example: "hoatuoithanhngoc.com:443")
+    const host = hostHeader.split(':')[0].toLowerCase();
+
+    if (host === 'hoatuoithanhngoc.com') {
+      // Preserve path and query string
+      const target = `https://www.hoatuoithanhngoc.com${req.originalUrl || '/'}`;
+      return res.redirect(301, target); // Permanent redirect
+    }
+  } catch (err) {
+    // if anything fails, just continue to next handlers
+  }
+  next();
+});
+// --- END: Redirect non-www -> www ---
 const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
@@ -207,7 +234,7 @@ const danhSachHoa = cacFileAnh.map((tenFile, index) => {
 
 // --- ROUTES ---
 app.get('/blog-1', (req, res) => {
-    res.render('blog-1');
+    res.render('blog-1', { duLieu: thongTinCuaHang });
 });
 app.get('/', (req, res) => {
   // TÍNH NĂNG MỚI: Tự động lọc hoa khi bấm vào danh mục vuốt ngang!
@@ -227,3 +254,5 @@ app.get('/san-pham/:id_or_slug', (req, res) => {
 });
 
 app.listen(port, () => { console.log(`Server chạy tại: http://localhost:${port}`); });
+
+/* cspell:enable */
